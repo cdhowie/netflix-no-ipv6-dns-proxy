@@ -1,0 +1,12 @@
+[Unit]
+Description=DNS server that intentionally fails to resolve AAAA for Netflix
+After=network.target
+Wants=network.target
+
+[Service]
+ExecStart=/opt/fix-netflix-dns/server.py
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=default.target
