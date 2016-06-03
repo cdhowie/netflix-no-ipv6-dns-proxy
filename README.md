@@ -23,6 +23,12 @@ blocked (\*.netflix.com) and nothing that we don't want blocked.
 
 The only dependency is Twisted Names for Python.
 
+## Configuration
+
+Open `server.py` and configure the `OPTIONS` dict according to the comments.
+Here you will be able to configure which address and port this server binds to,
+as well as which DNS server it will forward requests to.
+
 ## Installation
 
 Clone this repository into `/opt/fix-netflix-dns`.  (You can clone as any user,
