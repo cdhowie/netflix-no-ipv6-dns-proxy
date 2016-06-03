@@ -15,7 +15,9 @@ Internet.
 
 I also considered null-routing the Netflix IPv6 address ranges, but many (all?)
 Netflix services are deployed in Amazon Web Services, so there's no good way to
-reliably null-route Netflix without null-routing all of AWS.
+reliably null-route Netflix without null-routing all of AWS.  Dealing with the
+problem in the DNS process allows us to precisely block exactly what we want
+blocked (\*.netflix.com) and nothing that we don't want blocked.
 
 ## Installation
 
