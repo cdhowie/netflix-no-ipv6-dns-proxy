@@ -19,6 +19,10 @@ reliably null-route Netflix without null-routing all of AWS.  Dealing with the
 problem in the DNS process allows us to precisely block exactly what we want
 blocked (\*.netflix.com) and nothing that we don't want blocked.
 
+## Dependencies
+
+The only dependency is Twisted Names for Python.
+
 ## Installation
 
 Clone this repository into `/opt/fix-netflix-dns`.  (You can clone as any user,
@@ -33,6 +37,3 @@ Run the following commands to install the systemd service:
     ln -s /opt/fix-netflix-dns/fix-netflix-dns.service
     systemctl enable fix-netflix-dns.service
     systemctl start fix-netflix-dns.service
-
-Note that you need the Twisted Names for Python package installed on your
-system.
