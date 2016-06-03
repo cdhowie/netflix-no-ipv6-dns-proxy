@@ -12,10 +12,13 @@ OPTIONS = {
     # Here is where you configure what DNS server to proxy to.  You must
     # specify exactly one of the following options; comment out the other.
 
-    # Specify one or more servers to proxy to.
-    # 'upstream-dns': [('::1', 10053)],
+    # Specify one or more servers to proxy to.  Note that Twisted may not be
+    # happy if you use an IPv6 address.
+    # 'upstream-dns': [('127.0.0.1', 10053)],
 
-    # Specify a resolv.conf file from which to read upstream nameservers.
+    # Specify a resolv.conf file from which to read upstream nameservers.  As
+    # noted above, if you have any upstream IPv6 servers, Twisted may not be
+    # happy about that.
     # 'resolv-conf': '/etc/resolv.conf',
 }
 

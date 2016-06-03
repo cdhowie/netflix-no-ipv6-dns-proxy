@@ -29,13 +29,17 @@ Open `server.py` and configure the `OPTIONS` dict according to the comments.
 Here you will be able to configure which address and port this server binds to,
 as well as which DNS server it will forward requests to.
 
+Note that if you are using dnsmasq and its built-in DHCP server, and you
+reconfigure it to listen on a port other than 53 for DNS, it will stop
+advertising itself as a DNS server to DHCP clients.  Put `dhcp-option=6,$IP` in
+`dnsmasq.conf` (changing `$IP` to the server's LAN IP) to fix this.  Note that
+this will not work when dnsmasq is serving multiple different DHCP ranges,
+unless you use an IP address that is reachable from all of those networks.
+
 ## Installation
 
 Clone this repository into `/opt/fix-netflix-dns`.  (You can clone as any user,
 but the server must be run as root in order to bind to port 53.)
-
-Configure your existing DNS server/forwarder to listen on port 10053, and
-restart it.
 
 Run the following commands to install the systemd service:
 
