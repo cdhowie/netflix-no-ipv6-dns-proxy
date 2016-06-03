@@ -18,7 +18,7 @@ class NoAAAAResolver(object):
 
 def main():
     factory = server.DNSServerFactory(
-        clients=[NoAAAAResolver(), client.Resolver(servers=[('127.0.0.1', 53)])]
+        clients=[NoAAAAResolver(), client.Resolver(servers=[('127.0.0.1', 10053)])]
     )
 
     protocol = dns.DNSDatagramProtocol(controller=factory)
