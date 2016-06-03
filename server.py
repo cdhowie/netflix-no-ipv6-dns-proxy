@@ -1,4 +1,4 @@
-#!/bin/env python
+#!/usr/bin/env python
 
 from twisted.internet import reactor, defer
 from twisted.names import client, dns, error, server
@@ -23,8 +23,8 @@ def main():
 
     protocol = dns.DNSDatagramProtocol(controller=factory)
 
-    reactor.listenUDP(53, protocol)
-    reactor.listenTCP(53, factory)
+    reactor.listenUDP(53, protocol, interface='::')
+    reactor.listenTCP(53, factory, interface='::')
 
     reactor.run()
 
