@@ -33,3 +33,6 @@ Run the following commands to install the systemd service:
     ln -s /opt/fix-netflix-dns/fix-netflix-dns.service
     systemctl enable fix-netflix-dns.service
     systemctl start fix-netflix-dns.service
+
+Note that you need the Twisted Names for Python package installed on your
+system.
