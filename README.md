@@ -13,11 +13,17 @@ Note that this server **does not** in any way circumvent Netflix's block
 against these IPv6 address ranges; all it does is force Netflix to use the IPv4
 Internet.
 
+I also considered null-routing the Netflix IPv6 address ranges, but many (all?)
+Netflix services are deployed in Amazon Web Services, so there's no good way to
+reliably null-route Netflix without null-routing all of AWS.
+
 ## Installation
 
-Clone this repository into `/opt/fix-netflix-dns`.  (You can clone as any user, but the server must be run as root in order to bind to port 53.)
+Clone this repository into `/opt/fix-netflix-dns`.  (You can clone as any user,
+but the server must be run as root in order to bind to port 53.)
 
-Configure your existing DNS server/forwarder to listen on port 10053, and restart it.
+Configure your existing DNS server/forwarder to listen on port 10053, and
+restart it.
 
 Run the following commands to install the systemd service:
 
