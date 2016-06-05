@@ -26,17 +26,16 @@ from twisted.internet import reactor, defer
 from twisted.names import client, dns, error, server
 
 class NoAAAAResolver(object):
-    def __shouldForward(self, query):
-        if query.type == dns.AAAA and (query.name.name == 'netflix.com' or query.name.name.endswith('.netflix.com')):
-            return False
+    def __shouldBlock(self, query):
+        penultimateDomainPart = query.name.name.split('.')[-2]
 
-        return True
+        return query.type == dns.AAAA and penultimateDomainPart in ('netflix', 'nflximg')
 
     def query(self, query, timeout=None):
-        if self.__shouldForward(query):
-            return defer.fail(error.DomainError())
-        else:
+        if self.__shouldBlock(query):
             return defer.succeed(([], [], []))
+        else:
+            return defer.fail(error.DomainError())
 
 def main():
     factory = server.DNSServerFactory(
