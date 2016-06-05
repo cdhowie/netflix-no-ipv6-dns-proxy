@@ -25,7 +25,7 @@ OPTIONS = {
 from twisted.internet import reactor, defer
 from twisted.names import client, dns, error, server
 
-class NoAAAAResolver(object):
+class BlockNetflixAAAAResolver(object):
     def __shouldBlock(self, query):
         penultimateDomainPart = query.name.name.split('.')[-2]
 
@@ -40,7 +40,7 @@ class NoAAAAResolver(object):
 def main():
     factory = server.DNSServerFactory(
         clients=[
-            NoAAAAResolver(),
+            BlockNetflixAAAAResolver(),
             client.Resolver(
                 servers=OPTIONS.get('upstream-dns', None),
                 resolv=OPTIONS.get('resolv-conf', None)
