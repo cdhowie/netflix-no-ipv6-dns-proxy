@@ -1,12 +1,10 @@
-# This file is deprecated; use netflix-no-ipv6-dns-proxy.service instead.
-
 [Unit]
 Description=DNS server that intentionally fails to resolve AAAA for Netflix
 After=network.target
 Wants=network.target
 
 [Service]
-ExecStart=/opt/fix-netflix-dns/server.py
+ExecStart=/opt/netflix-no-ipv6-dns-proxy/server.py
 Restart=always
 RestartSec=5
 

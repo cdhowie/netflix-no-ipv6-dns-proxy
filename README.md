@@ -1,4 +1,4 @@
-# fix-netflix-dns
+# netflix-no-ipv6-dns-proxy
 
 This is a DNS server that intentionally returns an empty result set for any
 AAAA query for netflix.com or any subdomain thereof.  The intent is to force
@@ -38,12 +38,12 @@ unless you use an IP address that is reachable from all of those networks.
 
 ## Installation
 
-Clone this repository into `/opt/fix-netflix-dns`.  (You can clone as any user,
-but the server must be run as root in order to bind to port 53.)
+Clone this repository into `/opt/netflix-no-ipv6-dns-proxy`.  (You can clone as
+any user, but the server must be run as root in order to bind to port 53.)
 
 Run the following commands to install the systemd service:
 
     cd /etc/systemd/system
-    ln -s /opt/fix-netflix-dns/fix-netflix-dns.service
-    systemctl enable fix-netflix-dns.service
-    systemctl start fix-netflix-dns.service
+    ln -s /opt/netflix-no-ipv6-dns-proxy/netflix-no-ipv6-dns-proxy.service
+    systemctl enable netflix-no-ipv6-dns-proxy.service
+    systemctl start netflix-no-ipv6-dns-proxy.service
