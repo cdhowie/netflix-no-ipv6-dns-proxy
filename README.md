@@ -29,6 +29,14 @@ Open `server.py` and configure the `OPTIONS` dict according to the comments.
 Here you will be able to configure which address and port this server binds to,
 as well as which DNS server it will forward requests to.
 
+The Netflix apps for Chromecast and Android have started **ignoring the DNS
+servers announced over DHCP and will send queries directly to 8.8.8.8 and/or
+8.8.4.4**.  If you are running this proxy on your network's default gateway,
+simply configure the LAN-facing interface with these addresses to force all
+queries to them to be handled by the proxy.  If you are running the DNS proxy
+on another box, you will have to configure your router to NAT DNS requests to
+these addresses to that other box.
+
 Note that if you are using dnsmasq and its built-in DHCP server, and you
 reconfigure it to listen on a port other than 53 for DNS, it will stop
 advertising itself as a DNS server to DHCP clients.  Put `dhcp-option=6,$IP` in
