@@ -54,3 +54,9 @@ Run the following commands to install the systemd service:
     ln -s /opt/netflix-no-ipv6-dns-proxy/netflix-no-ipv6-dns-proxy.service /etc/systemd/system/
     systemctl enable netflix-no-ipv6-dns-proxy.service
     systemctl start netflix-no-ipv6-dns-proxy.service
+
+If you're using a system that's not using systemd, install the init script and start the service as follows:
+
+    cp netflix-no-ipv6-dns-proxy.init /etc/init.d/netflix-no-ipv6-dns-proxy
+    update-rc.d -n netflix-no-ipv6-dns-proxy defaults
+    service netflix-no-ipv6-dns-proxy start

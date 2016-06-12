@@ -1,0 +1,75 @@
+#!/bin/sh -e
+
+### BEGIN INIT INFO
+# Provides:          netflix-no-ipv6-dns-proxy
+# Required-Start:    $remote_fs
+# Required-Stop:     $remote_fs
+# Should-Start:      $network $syslog
+# Should-Stop:       $network $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Start and stop netflix-no-ipv6-dns-proxy
+# Description:       Fix the Netflix anti-v6 madness with v6 tunnel providers
+### END INIT INFO
+
+PATH=/sbin:/bin:/usr/sbin:/usr/bin
+
+# for a chrooted server: "-u bind -t /var/lib/named"
+# Don't modify this line, change or create /etc/default/bind9.
+OPTIONS=""
+
+. /lib/lsb/init-functions
+
+case "$1" in
+    start)
+	log_daemon_msg "Starting Netflix domain name service fix..." "netflix-no-ipv6-dns-proxy"
+
+	modprobe capability >/dev/null 2>&1 || true
+
+	# dirs under /var/run can go away on reboots.
+	if start-stop-daemon --start -b --oknodo --quiet --exec /opt/netflix-no-ipv6-dns-proxy/server.py \
+		-- $OPTIONS; then
+	    log_end_msg 0
+	else
+	    log_end_msg 1
+	fi
+    ;;
+
+    stop)
+	log_daemon_msg "Stopping Netflix domain name service fix..." "netflix-no-ipv6-dns-prox"
+
+	pid=$(ps ax|grep server.py |grep python | awk '{print $1}')
+	if [ -n "$pid" ]; then
+	    sig=0
+	    n=1
+	    while kill -$sig $pid 2>/dev/null; do
+		if [ $n -eq 1 ]; then
+		    echo "waiting for pid $pid to die"
+		fi
+		if [ $n -eq 11 ]; then
+		    echo "giving up on pid $pid with kill -0; trying -9"
+		    sig=9
+		fi
+		if [ $n -gt 20 ]; then
+		    echo "giving up on pid $pid"
+		    break
+		fi
+		n=$(($n+1))
+		sleep 1
+	    done
+	fi
+	log_end_msg 0
+    ;;
+
+    restart)
+	$0 stop
+	$0 start
+    ;;
+
+    *)
+	log_action_msg "Usage: /etc/init.d/netflix-no-ipv6-dns-proxy {start|stop|restart}"
+	exit 1
+    ;;
+esac
+
+exit 0
