@@ -51,6 +51,11 @@ any user, but the server must be run as root in order to bind to port 53.)
 
 Run the following commands to install the systemd service:
 
-    ln -s /opt/netflix-no-ipv6-dns-proxy/netflix-no-ipv6-dns-proxy.service /etc/systemd/system/
+    cp /opt/netflix-no-ipv6-dns-proxy/netflix-no-ipv6-dns-proxy.service /etc/systemd/system/
     systemctl enable netflix-no-ipv6-dns-proxy.service
     systemctl start netflix-no-ipv6-dns-proxy.service
+
+If you don't want to have to keep the unit file up to date manually, you can
+symlink it (`ln -s`) if your version of systemd works with symlinked unit
+files, or hardlink it if `/opt/netflix-no-ipv6-dns-proxy` and
+`/etc/systemd/system` exist on the same volume.
