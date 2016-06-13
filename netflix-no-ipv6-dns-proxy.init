@@ -13,10 +13,8 @@
 ### END INIT INFO
 
 PATH=/sbin:/bin:/usr/sbin:/usr/bin
-
-# for a chrooted server: "-u bind -t /var/lib/named"
-# Don't modify this line, change or create /etc/default/bind9.
-OPTIONS=""
+PIDFILE=/var/run/netflix-no-ipv6-dns-proxy.pid
+DAEMON=/opt/netflix-no-ipv6-dns-proxy/server.py
 
 . /lib/lsb/init-functions
 
@@ -27,8 +25,9 @@ case "$1" in
 	modprobe capability >/dev/null 2>&1 || true
 
 	# dirs under /var/run can go away on reboots.
-	if start-stop-daemon --start -b --oknodo --quiet --exec /opt/netflix-no-ipv6-dns-proxy/server.py \
-		-- $OPTIONS; then
+	if start-stop-daemon --start -b --oknodo --quiet --exec $DAEMON \
+		--pidfile $PIDFILE --make-pidfile
+	then
 	    log_end_msg 0
 	else
 	    log_end_msg 1
@@ -36,29 +35,15 @@ case "$1" in
     ;;
 
     stop)
-	log_daemon_msg "Stopping Netflix domain name service fix..." "netflix-no-ipv6-dns-prox"
+	log_daemon_msg "Stopping Netflix domain name service fix..." "netflix-no-ipv6-dns-proxy"
+	if start-stop-daemon --stop --oknodo --pidfile $PIDFILE
+	then
+		log_end_msg 0
+		rm -f $PIDFILE
+	else
+		log_end_msg 1
 
-	pid=$(ps ax|grep server.py |grep python | awk '{print $1}')
-	if [ -n "$pid" ]; then
-	    sig=0
-	    n=1
-	    while kill -$sig $pid 2>/dev/null; do
-		if [ $n -eq 1 ]; then
-		    echo "waiting for pid $pid to die"
-		fi
-		if [ $n -eq 11 ]; then
-		    echo "giving up on pid $pid with kill -0; trying -9"
-		    sig=9
-		fi
-		if [ $n -gt 20 ]; then
-		    echo "giving up on pid $pid"
-		    break
-		fi
-		n=$(($n+1))
-		sleep 1
-	    done
 	fi
-	log_end_msg 0
     ;;
 
     restart)
