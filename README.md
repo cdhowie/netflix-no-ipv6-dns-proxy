@@ -59,9 +59,12 @@ If you don't want to have to keep the unit file up to date manually, you can
 symlink it (`ln -s`) if your version of systemd works with symlinked unit
 files, or hardlink it if `/opt/netflix-no-ipv6-dns-proxy` and
 `/etc/systemd/system` exist on the same volume.
+<<<<<<< HEAD
 
 If you're using a system that's not using systemd, install the init script and start the service as follows:
 
     cp netflix-no-ipv6-dns-proxy.init /etc/init.d/netflix-no-ipv6-dns-proxy
     update-rc.d -n netflix-no-ipv6-dns-proxy defaults
     service netflix-no-ipv6-dns-proxy start
+=======
+>>>>>>> upstream/master
