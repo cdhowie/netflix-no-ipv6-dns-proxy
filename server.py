@@ -20,6 +20,19 @@ OPTIONS = {
     # noted above, if you have any upstream IPv6 servers, Twisted may not be
     # happy about that.
     # 'resolv-conf': '/etc/resolv.conf',
+
+    # Set this to an IPv6 address and all blocked queries will return this
+    # address instead of an empty result set.  The Android Netflix client has
+    # (for me) started getting testy when AAAA queries return nothing.  Set
+    # this to an address in an unreachable route to resolve that issue.  I
+    # suggest b'100::1' as this is within the RFC6666-specified discard prefix.
+    #
+    # Run this command on your Linux router to add an unreachable route for the
+    # entire discard prefix (100::/64).  Add it to the "up" script for your lo
+    # interface if you want it preserved on reboots.
+    #
+    # # ip route add unreachable 0100::/64
+    'blackhole': False,  # b'100::1',
 }
 
 from twisted.internet import reactor, defer
@@ -36,7 +49,19 @@ class BlockNetflixAAAAResolver(object):
 
     def query(self, query, timeout=None):
         if self.__shouldBlock(query):
-            return defer.succeed(([], [], []))
+            results = []
+
+            blackhole = OPTIONS.get('blackhole', None)
+            if blackhole is not None:
+                results.append(
+                    dns.RRHeader(
+                        name=query.name.name,
+                        type=dns.AAAA,
+                        payload=dns.Record_AAAA(address=blackhole)
+                    )
+                )
+
+            return defer.succeed((results, [], []))
         else:
             return defer.fail(error.DomainError())
 
