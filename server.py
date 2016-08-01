@@ -40,12 +40,9 @@ from twisted.names import client, dns, error, server
 
 class BlockNetflixAAAAResolver(object):
     def __shouldBlock(self, query):
-        domainParts = query.name.name and query.name.name.split('.')
+        penultimateDomainPart = query.name.name.split('.')[-2]
 
-        if not domainParts or len(domainParts) < 2:
-            return False
-
-        return query.type == dns.AAAA and domainParts[-2] in ('netflix', 'nflximg')
+        return query.type == dns.AAAA and penultimateDomainPart in ('netflix', 'nflximg')
 
     def query(self, query, timeout=None):
         if self.__shouldBlock(query):
