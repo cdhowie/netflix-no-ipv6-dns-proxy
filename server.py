@@ -32,7 +32,7 @@ OPTIONS = {
     # interface if you want it preserved on reboots.
     #
     # # ip route add unreachable 0100::/64
-    'blackhole': False,  # b'100::1',
+    'blackhole': None,  # b'100::1',
 }
 
 from twisted.internet import reactor, defer
