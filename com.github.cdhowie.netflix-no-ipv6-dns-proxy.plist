@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Label</key>
+	<string>com.github.cdhowie.netflix-no-ipv6-dns-proxy</string>
+	<key>KeepAlive</key>
+	<true/>
+	<key>RunAtLoad</key>
+	<true/>
+	<key>ProgramArguments</key>
+	<array>
+		<string>/opt/netflix-no-ipv6-dns-proxy/server.py</string>
+	</array>
+	<key>StandardErrorPath</key>
+	<string>/var/log/netflix-no-ipv6-dns-proxy.error.log</string>
+	<key>StandardOutPath</key>
+	<string>/var/log/netflix-no-ipv6-dns-proxy.log</string>
+</dict>
+</plist>
+

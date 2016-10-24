@@ -75,3 +75,8 @@ If you're using a system that's not using systemd, install the init script and s
     cp netflix-no-ipv6-dns-proxy.init /etc/init.d/netflix-no-ipv6-dns-proxy
     update-rc.d -n netflix-no-ipv6-dns-proxy defaults
     service netflix-no-ipv6-dns-proxy start
+
+If you're using launchd (eg: macOS), install the launchd.plist and load the service as follows:
+
+    sudo cp com.github.cdhowie.netflix-no-ipv6-dns-proxy.plist /Library/LaunchDaemons
+    sudo launchctl load -w /Library/LaunchDaemons/com.github.cdhowie.netflix-no-ipv6-dns-proxy.plist
