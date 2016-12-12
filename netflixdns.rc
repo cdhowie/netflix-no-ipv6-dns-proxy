@@ -37,9 +37,9 @@ netflixdns_start()
 		echo "${name} already running? (pid=${pid})."
 		return 1
 	fi
-	
+
 	echo -n "Starting ${name}"
-	PATH="${PATH}:/usr/local/bin" /usr/sbin/daemon -p ${pidfile} ${command} ${netflixdns_flags}
+	PATH="${PATH}:/usr/local/bin" /usr/sbin/daemon -f -p ${pidfile} ${command} ${netflixdns_flags}
 	echo '.'
 }
 
