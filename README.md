@@ -25,7 +25,7 @@ The only dependency is Twisted Names for Python.
 
 ## Configuration
 
-Open `server.py` and configure the `OPTIONS` dict according to the comments.
+Open `config.py` and configure the `OPTIONS` dict according to the comments.
 Here you will be able to configure which address and port this server binds to,
 as well as which DNS server it will forward requests to.
 
@@ -94,5 +94,9 @@ Alternatively without `docker-compose`:
 
 ```bash
 docker build -t dnsproxy .
-docker run -d dnsproxy
+docker run -d -p 53:53 -p 53:53/udp dnsproxy
 ```
+
+Configuration is copied from `config.py.docker` during build.
+Rebuild is required after changing it. Alternatively you might point a config to
+`/opt/netflix-no-ipv6-dns-proxy/config.py` using docker volumes.
