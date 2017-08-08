@@ -80,3 +80,19 @@ If you're using launchd (eg: macOS), install the launchd.plist and load the serv
 
     sudo cp com.github.cdhowie.netflix-no-ipv6-dns-proxy.plist /Library/LaunchDaemons
     sudo launchctl load -w /Library/LaunchDaemons/com.github.cdhowie.netflix-no-ipv6-dns-proxy.plist
+
+
+## Run using docker
+
+Clone this repository and run the following commands within the source directory:
+
+```bash
+docker-compose up -d
+```
+
+Alternatively without `docker-compose`:
+
+```bash
+docker build -t dnsproxy .
+docker run -d dnsproxy
+```
