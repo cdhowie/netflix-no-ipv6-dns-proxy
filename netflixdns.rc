@@ -1,0 +1,46 @@
+#!/bin/sh
+
+# $FreeBSD$
+#
+# PROVIDE: netflixdns
+# REQUIRE: LOGIN
+#
+# Add the following line to /etc/rc.conf[.local] to enable netflixdns
+#
+# netflixdns_enable (bool):	Set to "NO" by default.
+#				Set it to "YES" to enable netflixdns.
+# netflixdns_command (path):	Path to the python script
+
+. /etc/rc.subr
+
+name=netflixdns
+rcvar=netflixdns_enable
+
+load_rc_config $name
+
+: ${netflixdns_enable="NO"}
+: ${netflixdns_command="/usr/local/libexec/netflixdns"}
+
+command="${netflixdns_command}"
+command_interpreter="python"
+pidfile="/var/run/${name}.pid"
+
+start_cmd="${name}_start"
+
+netflixdns_start()
+{
+	local pid
+
+	pid=$(check_pidfile $pidfile $command)
+
+	if [ -n "${pid}" ]; then
+		echo "${name} already running? (pid=${pid})."
+		return 1
+	fi
+
+	echo -n "Starting ${name}"
+	PATH="${PATH}:/usr/local/bin" /usr/sbin/daemon -f -p ${pidfile} ${command} ${netflixdns_flags}
+	echo '.'
+}
+
+run_rc_command "$1"
