@@ -25,7 +25,7 @@ The only dependency is Twisted Names for Python.
 
 ## Configuration
 
-Open `server.py` and configure the `OPTIONS` dict according to the comments.
+Open `config.py` and configure the `OPTIONS` dict according to the comments.
 Here you will be able to configure which address and port this server binds to,
 as well as which DNS server it will forward requests to.
 
@@ -80,3 +80,23 @@ If you're using launchd (eg: macOS), install the launchd.plist and load the serv
 
     sudo cp com.github.cdhowie.netflix-no-ipv6-dns-proxy.plist /Library/LaunchDaemons
     sudo launchctl load -w /Library/LaunchDaemons/com.github.cdhowie.netflix-no-ipv6-dns-proxy.plist
+
+
+## Run using docker
+
+Clone this repository and run the following commands within the source directory:
+
+```bash
+docker-compose up -d
+```
+
+Alternatively without `docker-compose`:
+
+```bash
+docker build -t dnsproxy .
+docker run -d -p 53:53 -p 53:53/udp dnsproxy
+```
+
+Configuration is copied from `config.py.docker` during build.
+Rebuild is required after changing it. Alternatively you might point a config to
+`/opt/netflix-no-ipv6-dns-proxy/config.py` using docker volumes.

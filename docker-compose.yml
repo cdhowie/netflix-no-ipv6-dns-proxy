@@ -1,0 +1,7 @@
+version: '2'
+services:
+  dnsproxy:
+    build: .
+    ports:
+      - 53:53
+      - 53:53/udp
